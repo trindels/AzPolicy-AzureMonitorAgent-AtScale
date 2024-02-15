@@ -1,0 +1,2 @@
+# AzPolicy-AzureMonitorAgent-AtScale
+ 
