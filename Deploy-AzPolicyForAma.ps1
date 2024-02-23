@@ -4,7 +4,7 @@ Set this to $true if you want to manually assign the Policy UAMI RBAC Permission
 This may be needed if the person creating the policy assignments does not have
 User Access Administrator or RBAC Permissions on the designated scopes.
 #>
-$assignRbac = $false 
+$assignRbac = $true 
 
 <# 
 Assign Policy
@@ -34,7 +34,6 @@ User Assigned Managed Identity leveraged by Azure Policy for Remediation Tasks
 $policyUAMIsubId = "00000000-0000-0000-0000-000000000000"
 $policyUAMIrgName = "policy-uami-rgName"
 $policyUAMIname = "policy-uami-name"
-$policyUAMIregion = "eastus"
 $policyUAMIid = "/subscriptions/$($policyUAMIsubId)/resourceGroups/$($policyUAMIrgName)/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$($policyUAMIname)"
 
 <#
@@ -296,12 +295,13 @@ $assignments = @{
 # Create RBAC Assignments
 if ( $assignRbac ) { 
     $policyUAMIdata = $policyUAMIid.Split("/")
-    $policyUAMI = Get-AzUserAssignedIdentity -Name $policyUAMIdata[6] -ResourceGroupName $policyUAMIdata[4] -SubscriptionId $policyUAMIdata[2]
+    $policyUAMI = Get-AzUserAssignedIdentity -Name $policyUAMIdata[8] -ResourceGroupName $policyUAMIdata[4] -SubscriptionId $policyUAMIdata[2]
 
     foreach ($key in $assignments.Keys) {
-        foreach ($scope in $assignments.$key.scopes) {
+        $assignValue = $assignments.$key
+        foreach ($scope in $assignValue.scopes) {
             foreach ($roleId in $assignValue.roles) { 
-                New-AzRoleAssignment -ObjectId $policyUAMI.PrincipalId -RoleDefinitionId $roleId -Scope $scope
+                New-AzRoleAssignment -ObjectId $policyUAMI.PrincipalId -RoleDefinitionId $roleId.split("/")[4] -Scope $scope -ErrorAction SilentlyContinue
             }
         }
     }
@@ -310,6 +310,9 @@ if ( $assignRbac ) {
 # Create Azure Policy Assignments
 $newPolicyAssignments = @()
 if ( $assignPolicy ) {
+    $policyUAMIdata = $policyUAMIid.Split("/")
+    $policyUAMI = Get-AzUserAssignedIdentity -Name $policyUAMIdata[8] -ResourceGroupName $policyUAMIdata[4] -SubscriptionId $policyUAMIdata[2]
+
     foreach ($key in $assignments.Keys) {
         $assignValue = $assignments.$key
         foreach ($scope in $assignValue.scopes) {
@@ -320,23 +323,25 @@ if ( $assignPolicy ) {
                 $policyDefObj = Get-AzPolicyDefinition -Id $assignValue.policyDefId
                 $newPolicyAssignments += New-AzPolicyAssignment `
                     -Name $assignValue.assignmentName `
+                    -DisplayName $assignValue.assignmentName `
                     -PolicyDefinition $policyDefObj `
                     -PolicyParameterObject $assignValue.parameters `
                     -Scope $scope `
                     -IdentityType "UserAssigned" `
-                    -IdentityId $policyUAMIid `
-                    -Location $policyUAMIregion `
+                    -IdentityId $policyUAMI.Id `
+                    -Location $policyUAMI.Location `
                     -ErrorAction Continue
             } elseif ( $null -ne $assignValue.policySetDefId ) {
                 $policySetObj = Get-AzPolicySetDefinition -Id $assignValue.policySetDefId
                 $newPolicyAssignments += New-AzPolicyAssignment `
                     -Name $assignValue.assignmentName `
+                    -DisplayName $assignValue.assignmentName `
                     -PolicySetDefinition $policySetObj `
                     -PolicyParameterObject $assignValue.parameters `
                     -Scope $scope `
                     -IdentityType "UserAssigned" `
-                    -IdentityId $policyUAMIid `
-                    -Location $policyUAMIregion `
+                    -IdentityId $policyUAMI.Id `
+                    -Location $policyUAMI.Location `
                     -ErrorAction Continue
             } else {
                 Write-Error "Policy Definition or Policy Set Definition is not set. Please set one or the other."
