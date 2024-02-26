@@ -322,7 +322,7 @@ if ( $assignRbac ) {
             New-AzRoleAssignment `
                 -ObjectId $policyUAMI.PrincipalId `
                 -RoleDefinitionId "43d0d8ad-25c7-4714-9337-8ba259a9fe05" `
-                -Scope $assignValue.properties.dcrResourceId `
+                -Scope $assignValue.parameters.dcrResourceId `
                 -ErrorAction SilentlyContinue
         }
     }
