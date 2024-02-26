@@ -318,7 +318,7 @@ if ( $assignRbac ) {
             }
         }
         # Check for Linked Roles: Assign Monitoring Reader Role to DCR
-        if ( $null -ne $assignValue.properties.dcrResourceId ) {
+        if ( $null -ne $assignValue.parameters.dcrResourceId ) {
             New-AzRoleAssignment `
                 -ObjectId $policyUAMI.PrincipalId `
                 -RoleDefinitionId "43d0d8ad-25c7-4714-9337-8ba259a9fe05" `
