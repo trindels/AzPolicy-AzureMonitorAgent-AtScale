@@ -293,15 +293,28 @@ $assignments = @{
 }
 
 # Create RBAC Assignments
-if ( $assignRbac ) { 
+if ( $assignRbac ) {
+    # Get Policy UAMI Data
     $policyUAMIdata = $policyUAMIid.Split("/")
     $policyUAMI = Get-AzUserAssignedIdentity -Name $policyUAMIdata[8] -ResourceGroupName $policyUAMIdata[4] -SubscriptionId $policyUAMIdata[2]
 
+    # Assigned Policy UAMI Access to VM UAMI
+    New-AzRoleAssignment `
+        -ObjectId $policyUAMI.PrincipalId `
+        -RoleDefinitionId "f1a07417-d97a-45cb-824c-7a7467783830" `
+        -Scope $vmUAMIid `
+        -ErrorAction SilentlyContinue
+
+    # Assign Policy UAMI access to Required Roles and Scopes
     foreach ($key in $assignments.Keys) {
         $assignValue = $assignments.$key
         foreach ($scope in $assignValue.scopes) {
             foreach ($roleId in $assignValue.roles) { 
-                New-AzRoleAssignment -ObjectId $policyUAMI.PrincipalId -RoleDefinitionId $roleId.split("/")[4] -Scope $scope -ErrorAction SilentlyContinue
+                New-AzRoleAssignment `
+                    -ObjectId $policyUAMI.PrincipalId `
+                    -RoleDefinitionId $roleId.split("/")[4] `
+                    -Scope $scope `
+                    -ErrorAction SilentlyContinue
             }
         }
     }
