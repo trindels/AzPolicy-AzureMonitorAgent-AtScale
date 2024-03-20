@@ -147,6 +147,30 @@
               {
                 "allOf": [
                   {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Windows"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Windows"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
                     "anyOf": [
                       {
                         "field": "type",
@@ -159,176 +183,8 @@
                     ]
                   },
                   {
-                    "anyOf": [
-                      {
-                        "field": "Microsoft.Compute/imageId",
-                        "in": "[parameters('listOfWindowsImageIdToInclude')]"
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftWindowsServer"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "WindowsServer"
-                          },
-                          {
-                            "anyOf": [
-                              {
-                                "field": "Microsoft.Compute/imageSku",
-                                "like": "2008-R2-SP1*"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageSku",
-                                "like": "2012-*"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageSku",
-                                "like": "2016-*"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageSku",
-                                "like": "2019-*"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageSku",
-                                "like": "2022-*"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftWindowsServer"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "WindowsServerSemiAnnual"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageSKU",
-                            "in": [
-                              "Datacenter-Core-1709-smalldisk",
-                              "Datacenter-Core-1709-with-Containers-smalldisk",
-                              "Datacenter-Core-1803-with-Containers-smalldisk",
-                              "Datacenter-Core-1809-with-Containers-smalldisk"
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftWindowsServerHPCPack"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "WindowsServerHPCPack"
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftSQLServer"
-                          },
-                          {
-                            "anyOf": [
-                              {
-                                "field": "Microsoft.Compute/imageOffer",
-                                "like": "*-WS2016"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageOffer",
-                                "like": "*-WS2016-BYOL"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageOffer",
-                                "like": "*-WS2012R2"
-                              },
-                              {
-                                "field": "Microsoft.Compute/imageOffer",
-                                "like": "*-WS2012R2-BYOL"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftRServer"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "MLServer-WS2016"
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftVisualStudio"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "in": [
-                              "VisualStudio",
-                              "Windows"
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftDynamicsAX"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "Dynamics"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageSKU",
-                            "equals": "Pre-Req-AX7-Onebox-U8"
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "microsoft-ads"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "equals": "windows-data-science-vm"
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Compute/imagePublisher",
-                            "equals": "MicrosoftWindowsDesktop"
-                          },
-                          {
-                            "field": "Microsoft.Compute/imageOffer",
-                            "like": "Windows-1*"
-                          }
-                        ]
-                      }
-                    ]
+                    "field": "Microsoft.Compute/imageId",
+                    "in": "[parameters('listOfWindowsImageIdToInclude')]"
                   }
                 ]
               }
