@@ -152,7 +152,7 @@
                   },
                   {
                     "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-                    "like": "Linux*"
+                    "equals": "Linux"
                   }
                 ]
               },
@@ -164,7 +164,7 @@
                   },
                   {
                     "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines/storageProfile.osDisk.osType",
-                    "like": "Linux*"
+                    "equals": "Linux"
                   }
                 ]
               },

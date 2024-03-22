@@ -38,7 +38,7 @@
           true,
           false
         ],
-        "defaultValue": true
+        "defaultValue": false
       },
       "listOfLinuxImageIdToInclude": {
         "type": "Array",

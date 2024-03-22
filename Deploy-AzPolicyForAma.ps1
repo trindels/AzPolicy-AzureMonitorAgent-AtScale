@@ -177,7 +177,7 @@ $assignments = @{
         "scopes" = @( $policyScope )
         "parameters" = @{
             "userAssignedManagedIdentityResourceId" = $vmUAMIid
-            "scopeToSupportedImages" = $true
+            "scopeToSupportedImages" = $false
             "listOfWindowsImageIdToInclude" = @()
             "effect" = "DeployIfNotExists"
         }
@@ -256,7 +256,7 @@ $assignments = @{
         "scopes" = @( $policyScope )
         "parameters" = @{
             "userAssignedManagedIdentityResourceId" = $vmUAMIid
-            "scopeToSupportedImages" = $true
+            "scopeToSupportedImages" = $false
             "listOfLinuxImageIdToInclude" = @()
             "effect" = "DeployIfNotExists"
         }
