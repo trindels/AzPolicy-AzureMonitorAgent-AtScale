@@ -260,7 +260,7 @@
               },
               {
                 "value": "[parameters('tagAction')]",
-                "equals": "ignoreTag"
+                "equals": "ignoreTags"
               }
             ]
           }
