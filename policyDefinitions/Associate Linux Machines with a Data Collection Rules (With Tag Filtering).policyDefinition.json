@@ -54,7 +54,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Tag Action",
-          "description": "Action to take based on the tag. If 'include', this policy will only apply to resources that have this tag.  If 'exclude', this policy will apply to all resources except those that have this tag. If 'ignoreTag', this policy will apply to all resources regardless of whether they have this tag or not."
+          "description": "Action to take based on the tag. If 'include', this policy will only apply to resources that have this tag.  If 'exclude', this policy will apply to all resources except those that have this tag. If 'ignoreTags', this policy will apply to all resources regardless of whether they have this tag or not."
         },
         "allowedValues": [
           "include",
